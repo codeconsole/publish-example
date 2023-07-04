@@ -1,0 +1,52 @@
+plugins {
+    id "java-library"
+    id "maven-publish"
+    id "signing"
+    id "io.github.gradle-nexus.publish-plugin" version "2.0.0-rc-1"
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from(components.java)
+        }
+        pom {
+            name = "<<Component Name>>"
+            description = "<<Component Description>>"
+            url = "<<Component URL>>"
+            licenses {
+                license {
+                    name = "<<License Name>>"
+                    url = "<<License URL>>"
+                }
+            }
+            developers {
+                developer {
+                    id = "<<Developer ID>>"
+                    name = "<<Developer Name>>"
+                    email = "<<Developer Email>>"
+                }
+            }
+            scm {
+                connection = "<<SCM Connection URL>>"
+                developerConnection = "<<SCM Dev Connection URL>>"
+                url = "<<Source URL>>"
+            }
+        }
+    }
+}
+
+nexusPublishing {
+    repositories {
+        myNexus {
+            nexusUrl = uri("https://your-server.com/staging")
+            snapshotRepositoryUrl = uri("https://your-server.com/snapshots")
+            username = "your-username" // defaults to project.properties["myNexusUsername"]
+            password = "your-password" // defaults to project.properties["myNexusPassword"]
+        }
+    }
+}
+
+signing {
+    sign publishing.publications.mavenJava
+}
